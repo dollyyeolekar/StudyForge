@@ -150,7 +150,7 @@ const handleLogout = async () => {
       formData.append("summaryLength", summaryLength);
       formData.append("localBackup", localBackup);
 
-      const response = await fetch("http://localhost:5000/upload", {
+      const response = await fetch("https://studyforge-ai-krh4.onrender.com/upload", {
         method: "POST",
         body: formData,
       });
@@ -212,7 +212,7 @@ const handleLogout = async () => {
     setShowScore(false);
 
     try {
-      const response = await fetch("http://localhost:5000/generate-quiz", {
+      const response = await fetch("https://studyforge-ai-krh4.onrender.com/generate-quiz", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -257,7 +257,7 @@ const generateFlashcards = async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/generate-flashcards",
+      "https://studyforge-ai-krh4.onrender.com/generate-flashcards",
       {
         method: "POST",
         headers: {
