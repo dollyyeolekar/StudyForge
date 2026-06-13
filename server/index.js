@@ -9,6 +9,9 @@ console.log("API KEY LOADED:", process.env.GEMINI_API_KEY?.slice(0, 10));
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
 
 app.use(cors());
 app.use(express.json());
