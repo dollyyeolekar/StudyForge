@@ -107,7 +107,6 @@ select {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 26px;
 }
 
 .app-logo svg {
@@ -1517,4 +1516,84 @@ nav button.active {
   padding: 12px;
   border-radius: 14px;
   margin-bottom: 12px;
+}
+/* FINAL UI SCALE FIX */
+.main {
+  padding: 28px 36px;
+}
+
+.sidebar {
+  width: 260px;
+}
+
+.app-logo h2 {
+  font-size: 26px;
+}
+
+.topbar h1 {
+  font-size: 34px;
+}
+
+.welcome-banner {
+  padding: 30px 42px;
+  min-height: 190px;
+}
+
+.welcome-banner h2 {
+  font-size: 34px;
+}
+
+.hero-illustration {
+  max-width: 210px;
+}
+
+.stat-card {
+  min-height: 135px;
+  padding: 24px;
+}
+
+.stat-card h2 {
+  font-size: 34px;
+}
+
+.recent-card,
+.study-streak-card,
+.ai-status-card,
+.progress-card,
+.quote-card {
+  padding: 24px;
+}
+
+.note-row {
+  padding: 14px 0;
+}
+
+.full-page-card {
+  padding: 32px 40px;
+}
+
+.page-title h1 {
+  font-size: 32px;
+}
+
+.reading-box {
+  padding: 34px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.settings-panel {
+  max-width: 820px;
+}
+
+.settings-row {
+  padding: 18px 24px;
+}
+.app-logo {
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.sidebar nav {
+  margin-top: 18px;
 }

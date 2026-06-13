@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 
 import {
@@ -37,6 +38,7 @@ function App() {
   const [activePage, setActivePage] = useState("dashboard");
   const [user, setUser] = useState(null);
 const [authMode, setAuthMode] = useState("login");
+const [authName, setAuthName] = useState("");
 const [authEmail, setAuthEmail] = useState("");
 const [authPassword, setAuthPassword] = useState("");
 const [authError, setAuthError] = useState("");
@@ -87,14 +89,33 @@ const [authError, setAuthError] = useState("");
 
   const [localBackup, setLocalBackup] = useState(true);
   useEffect(() => {
+  if (!user) return;
+
   localStorage.setItem(
-    "dashboardData",
+    `dashboardData-${user.uid}`,
     JSON.stringify(dashboardData)
   );
-}, [dashboardData]);
+}, [dashboardData, user]);
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
+
+    if (currentUser) {
+      const savedData = localStorage.getItem(`dashboardData-${currentUser.uid}`);
+
+      setDashboardData(
+        savedData
+          ? JSON.parse(savedData)
+          : {
+              pdfsUploaded: 0,
+              summariesGenerated: 0,
+              quizzesCreated: 0,
+              flashcardsCreated: 0,
+              recentNotes: [],
+              studyDays: [],
+            }
+      );
+    }
   });
 
   return () => unsubscribe();
@@ -109,7 +130,8 @@ const handleAuth = async () => {
 
   try {
     if (authMode === "signup") {
-      await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+      const userCredential = await createUserWithEmailAndPassword(auth, authEmail, authPassword);
+      await updateProfile(userCredential.user, { displayName: authName });
     } else {
       await signInWithEmailAndPassword(auth, authEmail, authPassword);
     }
@@ -387,13 +409,38 @@ const studyStreak = dashboardData.studyDays
   note.name.toLowerCase().includes(searchTerm.toLowerCase())
 );
 
+const userName =
+  user?.displayName ||
+  user?.email?.split("@")[0] ||
+  "Student";
+
+  const hour = new Date().getHours();
+
+let greeting = "Hello";
+
+if (hour < 12) {
+  greeting = "Good Morning";
+} else if (hour < 17) {
+  greeting = "Good Afternoon";
+} else {
+  greeting = "Good Evening";
+}
+
 if (!user) {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1>AI Study Assistant</h1>
+        <h1>StudyForge AI</h1>
         <p>{authMode === "login" ? "Login to continue" : "Create your account"}</p>
 
+{authMode === "signup" && (
+  <input
+    type="text"
+    placeholder="Choose your username"
+    value={authName}
+    onChange={(e) => setAuthName(e.target.value)}
+  />
+)}
         <input
           type="email"
           placeholder="Email"
@@ -435,8 +482,7 @@ if (!user) {
           <div className="app-logo">
             <Sparkles />
             <div>
-              <h2>AI Study</h2>
-              <h2>Assistant</h2>
+              <h2>StudyForge</h2>
             </div>
           </div>
 
@@ -465,8 +511,6 @@ if (!user) {
           <>
             <div className="topbar">
               <div>
-                <h1>Good Evening, Dolly!</h1>
-              
               </div>
 
               <div className="top-actions">
@@ -520,7 +564,7 @@ if (!user) {
       </div>
 
       <div>
-        <h4>Dolly Yeolekar</h4>
+        <h4>{userName}</h4>
         <p>CSIT Student</p>
       </div>
     </div>
@@ -559,8 +603,8 @@ if (!user) {
 
             <section className="welcome-banner">
               <div>
-                <h2>Let’s start studying!</h2>
-                <p>Upload your PDF notes and get AI-powered insights.</p>
+                <h2>{greeting}, {userName}!</h2>
+<p>Ready to make studying more fun?</p>
                 <button onClick={() => setActivePage("upload")}>
                   <Upload size={20} />
                   Upload PDF
