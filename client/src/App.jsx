@@ -392,16 +392,12 @@ const getResultClass = (questionIndex, option, correctAnswer) => {
   doc.save(`${fileTitle}-Notes.pdf`);
 };
 
-const studyProgress = Math.min(
-  100,
-  Math.round(
-    ((dashboardData.pdfsUploaded > 0 ? 1 : 0) +
-      (dashboardData.summariesGenerated > 0 ? 1 : 0) +
-      (dashboardData.quizzesCreated > 0 ? 1 : 0) +
-      (dashboardData.flashcardsCreated > 0 ? 1 : 0)) *
-      25
-  )
-);
+const studyProgress =
+  (pdfText ? 25 : 0) +
+  (summary ? 25 : 0) +
+  (quiz.length > 0 ? 25 : 0) +
+  (flashcards.length > 0 ? 25 : 0);
+
 const studyStreak = dashboardData.studyDays
   ? dashboardData.studyDays.length
   : 0;
@@ -743,8 +739,8 @@ onClick={() => {
                     </div>
                     <p>
   {studyProgress === 100
-    ? "All study tools completed! "
-    : "Keep going, complete all study sections."}
+    ? "All study tools completed!"
+    : `Complete ${4 - studyProgress / 25} more study step${4 - studyProgress / 25 === 1 ? "" : "s"}!`}
 </p>
                   </div>
                 </div>
