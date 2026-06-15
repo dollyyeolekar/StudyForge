@@ -565,7 +565,7 @@ if (!user) {
 
       <div>
         <h4>{userName}</h4>
-        <p>CSIT Student</p>
+<p>{user?.email}</p>
       </div>
     </div>
 
