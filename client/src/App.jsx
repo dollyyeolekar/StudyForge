@@ -392,6 +392,33 @@ const getResultClass = (questionIndex, option, correctAnswer) => {
   doc.save(`${fileTitle}-Notes.pdf`);
 };
 
+const studyQuotes = [
+  "Your future GPA is watching your choices right now 👀",
+  "One more chapter now = less panic later.",
+  "Study mode: ON. Overthinking mode: OFF.",
+  "The exam isn't getting easier, but you're getting smarter.",
+  "A little progress every day beats last-minute suffering.",
+  "Today's notes are tomorrow's marks.",
+  "Your academic comeback starts with this study session.",
+  "Nobody enjoys studying. Everyone enjoys good results.",
+  "Do it for the grades you'll flex later.",
+  "The assignment won't finish itself, sadly.",
+  "Future you is begging you to stop procrastinating.",
+  "One PDF at a time. One win at a time.",
+  "Lock in now. Thank yourself later.",
+  "Your goals deserve more than 'I'll start tomorrow'.",
+  "Small study sessions still count.",
+  "Coffee helps. Studying helps more.",
+  "Imagine opening your results and smiling.",
+  "You don't need motivation. You need momentum.",
+  "Every page you finish is one less page to worry about.",
+  "Main character energy = actually finishing your notes."
+];
+
+const [dailyQuote] = useState(
+  studyQuotes[Math.floor(Math.random() * studyQuotes.length)]
+);
+
 const studyProgress =
   (pdfText ? 25 : 0) +
   (summary ? 25 : 0) +
@@ -748,7 +775,7 @@ onClick={() => {
             </section>
 
             <section className="quote-card">
-              <p>“The beautiful thing about learning is nobody can take it away from you.”</p>
+              <p> "{dailyQuote}" </p>
               <img src={coffeeBottomImg} alt="Books and coffee" />
             </section>
           </>
